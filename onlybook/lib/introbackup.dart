@@ -86,7 +86,7 @@ class _IntroState extends State<Intro> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      CupertinoPageRoute(builder: (context) => Register()),
+                      CupertinoPageRoute(builder: (context) => Navig()),
                     );
                   },
                   child: Container(
@@ -111,7 +111,7 @@ class _IntroState extends State<Intro> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      CupertinoPageRoute(builder: (context) => Navig()),
+                      CupertinoPageRoute(builder: (context) => Register()),
                     );
                   },
                   child: Container(
