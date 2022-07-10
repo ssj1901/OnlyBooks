@@ -15,6 +15,7 @@ class _NavigState extends State<Navig> {
   int _currentIndex = 0;
   List<Widget>  _page = [
     Home(),
+    sellPage(),
     Profile(),
   ];
   @override
@@ -26,25 +27,25 @@ class _NavigState extends State<Navig> {
        body: 
         _page[_currentIndex],
        
-         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              setState(() {
-              Navigator.push(context, CupertinoPageRoute(
-                                                  builder: (context) => sellPage()
-                                                      ),);
-              });
-             },
-            tooltip: 'Increment',
-            child: Icon(Icons.add),
-            elevation: 2.0,
+        //  floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        //   floatingActionButton: FloatingActionButton(
+        //     onPressed: () {
+        //       setState(() {
+        //       Navigator.push(context, CupertinoPageRoute(
+        //                                           builder: (context) => sellPage()
+        //                                               ),);
+        //       });
+        //      },
+        //     tooltip: 'Increment',
+        //     child: Icon(Icons.add),
+        //     elevation: 2.0,
             
-          ),
+        //   ),
        bottomNavigationBar: BottomNavigationBar(
          selectedLabelStyle: GoogleFonts.poppins(),
-         iconSize: 30,
-         selectedFontSize: 8,
-         selectedItemColor: Colors.blue,
+         iconSize: 35,
+         selectedFontSize: 10,
+         selectedItemColor: Colors.purple[900],
          unselectedItemColor: Colors.black12,
          showSelectedLabels: true,
          showUnselectedLabels: false,
@@ -59,9 +60,10 @@ class _NavigState extends State<Navig> {
            BottomNavigationBarItem(
              icon: Icon(Icons.home),
              label: 'Home'),
-          //  BottomNavigationBarItem(
-          //    label: 'Explore',
-          //    icon: Icon(Icons.explore)),
+
+             BottomNavigationBarItem(
+             icon: Icon(Icons.add),
+             label: 'Sell',),
            BottomNavigationBarItem(
              label: 'Profile',
              icon: Icon(Icons.person))

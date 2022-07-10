@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:onlybook/Screens/Login/login_screen.dart';
+import 'package:onlybook/Screens/Signup/signup_screen.dart';
+import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/constants.dart';
-
+import 'introbackup.dart';
 import 'Screens/Welcome/welcome_screen.dart';
+import 'home.dart';
 
 void main() => runApp(const MyApp());
 
@@ -38,7 +42,7 @@ class MyApp extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
           )),
-      home: const WelcomeScreen(),
+      home:  Navig(),
     );
   }
 }

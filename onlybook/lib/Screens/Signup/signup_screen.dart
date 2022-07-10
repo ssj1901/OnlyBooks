@@ -4,68 +4,56 @@ import 'package:flutter/material.dart';
 import 'package:onlybook/constants.dart';
 import 'package:onlybook/responsive.dart';
 import '../../components/background.dart';
-import 'components/sign_up_top_image.dart';
 import 'components/signup_form.dart';
 import 'components/socal_sign_up.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Background(
-      child: SingleChildScrollView(
-        child: Responsive(
-          mobile: const MobileSignupScreen(),
-          desktop: Row(
+     double wt = MediaQuery.of(context).size.width;
+    double ht = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: Container(
+            height: ht,
+             width: wt,
+         
+          child: Stack(
             children: [
-              const Expanded(
-                child: SignUpScreenTopImage(),
+              Container(
+                //color:Colors.transparent,
+                height: ht,
+                width:wt,
+                child: Image.asset('assets/bg2.jpeg',fit:BoxFit.cover),
+
               ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SizedBox(
-                      width: 450,
-                      child: SignUpForm(),
-                    ),
-                    SizedBox(height: defaultPadding / 2),
-                    // SocalSignUp()
-                  ],
-                ),
-              )
+              Container(
+                color:Colors.grey.shade200.withOpacity(0.4),
+                height: ht,
+                width:wt,
+              ),
+              Center(
+                child: Container(
+                      height:ht*0.6,
+                      width: wt*0.87,
+                      decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(60),
+                              gradient: LinearGradient(
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                            colors: [
+                              Color(0xFFb993d6).withOpacity(0.8),
+                              Color(0XFF8ca6db).withOpacity(0.8),
+                              // Color(0XFFffffff)
+                            ],
+                          )),
+                          child: SignUpForm(),
+              
+               ))
+              
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class MobileSignupScreen extends StatelessWidget {
-  const MobileSignupScreen({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const SignUpScreenTopImage(),
-        Row(
-          children: const [
-            Spacer(),
-            Expanded(
-              flex: 8,
-              child: SignUpForm(),
-            ),
-            Spacer(),
-          ],
-        ),
-        // const SocalSignUp()
-      ],
     );
   }
 }

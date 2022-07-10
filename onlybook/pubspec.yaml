@@ -32,7 +32,7 @@ dependencies:
   curved_navigation_bar:
   google_fonts:
   flappy_search_bar_ns:
-
+  lottie:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -47,7 +47,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  cupertino_icons: ^1.0.5
+# cupertino_icons: ^1.0.5
   flutter_svg: ^1.1.0
 
 # For information on the generic Dart part of this file, see the
@@ -66,9 +66,12 @@ flutter:
     - assets/
     - assets/google_logo.png
     - assets/onlybookslogo.png
-    - assets/onlybookslogo.jpg
     - assets/nestle.png
-
+    - assets/bgimage.jpg
+    - assets/bg1.jpeg
+    - assets/bg2.jpeg
+    - assets/bg3.jpeg
+    - assets/programmingcomputer.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

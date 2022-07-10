@@ -4,63 +4,56 @@ import 'package:onlybook/responsive.dart';
 
 import '../../components/background.dart';
 import 'components/login_form.dart';
-import 'components/login_screen_top_image.dart';
+
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Background(
-      child: SingleChildScrollView(
-        child: Responsive(
-          mobile: const MobileLoginScreen(),
-          desktop: Row(
+    double wt = MediaQuery.of(context).size.width;
+    double ht = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: Container(
+            height: ht,
+             width: wt,
+         
+          child: Stack(
             children: [
-              const Expanded(
-                child: LoginScreenTopImage(),
+              Container(
+                //color:Colors.transparent,
+                height: ht,
+                width:wt,
+                child: Image.asset('assets/bg2.jpeg',fit:BoxFit.cover),
+
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SizedBox(
-                      width: 450,
-                      child: LoginForm(),
-                    ),
-                  ],
-                ),
+              Container(
+                color:Colors.grey.shade200.withOpacity(0.4),
+                height: ht,
+                width:wt,
               ),
+              Center(
+                child: Container(
+                      height:ht*0.6,
+                      width: wt*0.87,
+                      decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(60),
+                              gradient: LinearGradient(
+                            begin: Alignment.bottomLeft,
+                            end: Alignment.topRight,
+                            colors: [
+                              Color(0xFFb993d6).withOpacity(0.8),
+                              Color(0XFF8ca6db).withOpacity(0.8),
+                              // Color(0XFFffffff)
+                            ],
+                          )),
+                          child: LoginForm(),
+              
+               ))
+              
             ],
           ),
         ),
-      ),
     );
-  }
 }
-
-class MobileLoginScreen extends StatelessWidget {
-  const MobileLoginScreen({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const LoginScreenTopImage(),
-        Row(
-          children: const [
-            Spacer(),
-            Expanded(
-              flex: 8,
-              child: LoginForm(),
-            ),
-            Spacer(),
-          ],
-        ),
-      ],
-    );
-  }
 }
