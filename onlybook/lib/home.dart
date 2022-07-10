@@ -4,6 +4,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:onlybook/bookpage.dart';
+import 'package:onlybook/components/search.dart';
 import 'mp.dart';
 
 class Home extends StatefulWidget {
@@ -76,7 +78,12 @@ class _HomeState extends State<Home> {
                         itemCount: Books.books.length,
                         itemBuilder: (BuildContext ctx, index) {
                           return InkWell(
-                            onTap: (){},
+                            onTap: (){
+                               Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(builder: (context) => BookPage(Books.books[index])),
+                                      );
+                            },
                             child: Card(
                               shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(10) ),
                               color: Colors.white,
@@ -94,10 +101,10 @@ class _HomeState extends State<Home> {
                                       margin: EdgeInsets.only(bottom: 10),
                                       height: ht*0.2,
                                       decoration: BoxDecoration(
-                                        color: Colors.grey,
+                                       // color: Colors.grey,
                                         borderRadius: BorderRadius.circular(10)
                                       ),
-                                      child: Image.network(Books.books[index].imgPath),
+                                      child: Center(child: Image.network(Books.books[index].imgPath)),
                                     ),
                                     
                                     Text(Books.books[index].date,style: TextStyle(fontSize: 9,fontWeight:FontWeight.w300),),
@@ -162,33 +169,41 @@ class _HomeState extends State<Home> {
   Widget SearchBar(double ht, double wt) {
     return Positioned(
             top: ht*0.18,
-          child:Container(
-                margin: EdgeInsets.fromLTRB(wt*0.08, 0,0, 0),
-                width: wt*0.85,
-                height: 50,
-                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                  
-                  child: CupertinoSearchTextField(
-                    backgroundColor: Colors.white,
-                    borderRadius:BorderRadius.all(Radius.circular(20)),
-                  //  onChanged: (){},
-                  ) 
-                // Row(
-                //   children: [
-                //     Icon(Icons.search),
-                //     SizedBox(
-                //       width: 10,
-                //     ),
-                //     Text("Search"),
-                //   ],
-                // ),
-              ),);
+          child:InkWell(
+            onTap: (){
+              showSearch(context: context, delegate: DataSearch());
+            },
+            child: Container(
+                  margin: EdgeInsets.fromLTRB(wt*0.08, 0,0, 0),
+                  width: wt*0.85,
+                  height: 50,
+                  padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Colors.black26,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                    
+                    child:
+                    // CupertinoSearchTextField(
+                    //   backgroundColor: Colors.white,
+                    //   borderRadius:BorderRadius.all(Radius.circular(20)),
+                    //   onChanged: (values){
+                    //     showSearch(context: context, delegate: DataSearch());
+                    //   },
+                    // ) 
+                  Row(
+                    children: [
+                      Icon(Icons.search),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Search"),
+                    ],
+                  ),
+                ),
+          ),);
   }
 
   Widget TopPart(double ht) {
