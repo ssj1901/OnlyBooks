@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
           )),
-      home:  Intro(),
+      home:  Navig(),
     );
   }
 }
