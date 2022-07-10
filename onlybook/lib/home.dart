@@ -177,7 +177,7 @@ class _HomeState extends State<Home> {
                   child: CupertinoSearchTextField(
                     backgroundColor: Colors.white,
                     borderRadius:BorderRadius.all(Radius.circular(20)),
-                    onChanged: (){},
+                  //  onChanged: (){},
                   ) 
                 // Row(
                 //   children: [
