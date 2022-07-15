@@ -3,16 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/home.dart';
+import 'package:onlybook/services/authservice.dart';
 
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
 import '../../Signup/signup_screen.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  var name, password, token;
   @override
   Widget build(BuildContext context) {
     double wt = MediaQuery.of(context).size.width;
@@ -55,6 +62,9 @@ class LoginForm extends StatelessWidget {
                     child: Icon(Icons.person),
                   ),
                 ),
+                onChanged: (val) {
+                  name = val;
+                },
               ),
             ),
             Container(
@@ -72,18 +82,38 @@ class LoginForm extends StatelessWidget {
                     child: Icon(Icons.lock),
                   ),
                 ),
+                onChanged: (val) {
+                  password = val;
+                },
               ),
             ),
             const SizedBox(height: defaultPadding / 2),
             Container(
               width: wt*0.83,
               child: ElevatedButton(
+                // onPressed: () {
+                //   Navigator.push(
+                //     context,
+                //     CupertinoPageRoute(builder: (context) => Navig()),
+                //   );
+                // },
                 onPressed: () {
+              print(name + " "+password);
+              AuthService().login(name, password).then((val) {
+                if (val.data['success']) {
+                  token = val.data['token'];
+                  print("Success");
                   Navigator.push(
-                    context,
-                    CupertinoPageRoute(builder: (context) => Navig()),
-                  );
-                },
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return Navig();
+                    },
+                  ),
+                );
+                }
+              });
+            },
                 child: Text("Sign In".toUpperCase(),style: TextStyle(fontSize: 15),),
               ),
             ),

@@ -3,16 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/home.dart';
+import 'package:onlybook/services/authservice.dart';
 
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
 import '../../Login/login_screen.dart';
 
-class SignUpForm extends StatelessWidget {
+class SignUpForm extends StatefulWidget {
   const SignUpForm({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<SignUpForm> createState() => _SignUpFormState();
+}
+
+class _SignUpFormState extends State<SignUpForm> {
+  var name, password, token;
   @override
   Widget build(BuildContext context) {
     double wt = MediaQuery.of(context).size.width;
@@ -54,6 +61,9 @@ class SignUpForm extends StatelessWidget {
                     child: Icon(Icons.person),
                   ),
                 ),
+                onChanged: (val) {
+                  name = val;
+                },
               ),
             ),
             Container(
@@ -71,18 +81,36 @@ class SignUpForm extends StatelessWidget {
                     child: Icon(Icons.lock),
                   ),
                 ),
+                onChanged: (val) {
+                  password = val;
+                },
               ),
             ),
             const SizedBox(height: defaultPadding / 2),
             Container(
               width: wt*0.83,
               child: ElevatedButton(
+                // onPressed: () {
+                //   Navigator.push(
+                //     context,
+                //     CupertinoPageRoute(builder: (context) => Navig()),
+                //   );
+                //},
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(builder: (context) => Navig()),
-                  );
-                },
+              AuthService().addUser(name, password).then((val) {
+                print(name);
+                print(password);
+                print("Success");
+              });
+
+              Navigator.push(
+                context,
+                CupertinoPageRoute(builder: (context) {
+                  return LoginScreen();
+                }),
+              );
+            },
+                
                 child: Text("Sign Up".toUpperCase(),style: TextStyle(fontSize: 15),),
               ),
             ),
