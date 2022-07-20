@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:onlybook/Screens/details.dart';
 import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/home.dart';
 import 'package:onlybook/services/authservice.dart';
@@ -26,28 +27,44 @@ class _SignUpFormState extends State<SignUpForm> {
     double ht = MediaQuery.of(context).size.height;
     return Form(
       child: Container(
-        padding:EdgeInsets.symmetric(horizontal:7),
+        padding: EdgeInsets.symmetric(horizontal: 7),
         height: ht * 0.5,
-        width: wt*0.8,
+        width: wt * 0.8,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: ht*0.1,),
+            SizedBox(
+              height: ht * 0.1,
+            ),
             // Container(
             //   padding: EdgeInsets.only(left: 1),
             //   child: Text('Create an Account',style: GoogleFonts.poppins(color: Colors.black,fontSize:24,fontWeight: FontWeight.w700),),
             // ),
             Padding(
-              padding: const EdgeInsets.only(left:6.0),
-              child: Text('Create an Account',style: GoogleFonts.poppins(color: Colors.black,fontSize:24,fontWeight: FontWeight.w700),),
+              padding: const EdgeInsets.only(left: 6.0),
+              child: Text(
+                'Create an Account',
+                style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left:6.0),
-              child: Text('Lets Get Started',style: GoogleFonts.poppins(color: Colors.white,fontSize:14,fontWeight: FontWeight.w300),),
+              padding: const EdgeInsets.only(left: 6.0),
+              child: Text(
+                'Lets Get Started',
+                style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300),
+              ),
             ),
-            SizedBox(height: ht*0.05,),
+            SizedBox(
+              height: ht * 0.05,
+            ),
             Container(
-              width: wt *0.83,
+              width: wt * 0.83,
               child: TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
@@ -67,14 +84,14 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
             Container(
-              width: wt*0.83,
+              width: wt * 0.83,
               padding: const EdgeInsets.symmetric(vertical: defaultPadding),
               child: TextFormField(
                 textInputAction: TextInputAction.done,
                 obscureText: true,
                 cursorColor: kPrimaryColor,
                 decoration: InputDecoration(
-                  hintStyle:TextStyle(fontSize: 14),
+                  hintStyle: TextStyle(fontSize: 14),
                   hintText: "Your password",
                   prefixIcon: Padding(
                     padding: const EdgeInsets.all(defaultPadding),
@@ -88,7 +105,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             const SizedBox(height: defaultPadding / 2),
             Container(
-              width: wt*0.83,
+              width: wt * 0.83,
               child: ElevatedButton(
                 // onPressed: () {
                 //   Navigator.push(
@@ -97,21 +114,24 @@ class _SignUpFormState extends State<SignUpForm> {
                 //   );
                 //},
                 onPressed: () {
-              AuthService().addUser(name, password).then((val) {
-                print(name);
-                print(password);
-                print("Success");
-              });
+                  AuthService().addUser(name, password).then((val) {
+                    print(name);
+                    print(password);
+                    print("Success");
+                  });
 
-              Navigator.push(
-                context,
-                CupertinoPageRoute(builder: (context) {
-                  return LoginScreen();
-                }),
-              );
-            },
-                
-                child: Text("Sign Up".toUpperCase(),style: TextStyle(fontSize: 15),),
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) {
+                      return DetailsPage();
+                    }),
+                  );
+                },
+
+                child: Text(
+                  "Sign Up".toUpperCase(),
+                  style: TextStyle(fontSize: 15),
+                ),
               ),
             ),
             const SizedBox(height: defaultPadding),

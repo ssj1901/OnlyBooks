@@ -78,15 +78,7 @@ flutter:
     - assets/bg2.jpeg
     - assets/bg3.jpeg
     - assets/programmingcomputer.json
-    - assets/fb.png
-    - assets/insta.png
     - assets/profileimg.png
-    - assets/travelone.png
-    - assets/traveltwo.png
-    - assets/travelthree.png
-    - assets/travelfour.png
-    - assets/travelfive.png
-    - assets/travelsix.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
