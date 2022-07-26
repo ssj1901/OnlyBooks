@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:onlybook/Screens/Login/login_screen.dart';
 import 'package:onlybook/Screens/Signup/signup_screen.dart';
+import 'package:onlybook/Screens/details.dart';
 import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/constants.dart';
 import 'introbackup.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
           )),
-      home:  Intro(),
+      home: Intro(),
     );
   }
 }
