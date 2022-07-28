@@ -78,6 +78,8 @@ class _SignUpFormState extends State<SignUpForm> {
                     child: Icon(Icons.person),
                   ),
                 ),
+                validator: (value) =>
+                    value!.isEmpty ? 'Email cannot be empty' : null,
                 onChanged: (val) {
                   name = val;
                 },
@@ -98,6 +100,8 @@ class _SignUpFormState extends State<SignUpForm> {
                     child: Icon(Icons.lock),
                   ),
                 ),
+                validator: (value) =>
+                    value!.length < 6 ? 'Password too short' : null,
                 onChanged: (val) {
                   password = val;
                 },

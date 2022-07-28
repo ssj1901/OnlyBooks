@@ -9,6 +9,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 import '../../constants.dart';
 
@@ -30,11 +32,19 @@ class _SellPageState extends State<SellPage> {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return null;
 
-      final imageTemporary = File(image.path);
-      setState(() => this.image = imageTemporary);
+      //final imageTemporary = File(image.path);
+      final imagePermanent = await saveImagePermanently(image.path);
+      setState(() => this.image = imagePermanent);
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
+  }
+
+  Future<File> saveImagePermanently(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final image = File('${directory.path}/$name');
+    return File(imagePath).copy(image.path);
   }
 
   @override

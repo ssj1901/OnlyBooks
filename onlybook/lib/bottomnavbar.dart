@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:onlybook/Screens/Profile/profilefirst.dart';
 import 'Screens/Sell Page/sellpage.dart';
 import 'home.dart';
-import 'sell.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Navig extends StatefulWidget {
