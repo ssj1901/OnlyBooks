@@ -12,7 +12,7 @@ class Navig extends StatefulWidget {
 }
 
 class _NavigState extends State<Navig> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   List<Widget> _page = [
     Home(),
     SellPage(),
