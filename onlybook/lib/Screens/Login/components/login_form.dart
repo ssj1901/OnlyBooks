@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/home.dart';
 import 'package:onlybook/services/authservice.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
@@ -62,8 +63,10 @@ class _LoginFormState extends State<LoginForm> {
                     child: Icon(Icons.person),
                   ),
                 ),
-                onChanged: (val) {
+                onChanged: (val) async {
                   name = val;
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.setString('email', val);
                 },
               ),
             ),

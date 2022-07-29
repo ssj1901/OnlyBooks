@@ -5,6 +5,7 @@ import 'package:onlybook/Screens/details.dart';
 import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/home.dart';
 import 'package:onlybook/services/authservice.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
@@ -78,7 +79,9 @@ class _SignUpFormState extends State<SignUpForm> {
                     child: Icon(Icons.person),
                   ),
                 ),
-                onChanged: (val) {
+                onChanged: (val) async{
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.setString('email', val);
                   name = val;
                 },
               ),
