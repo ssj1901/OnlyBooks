@@ -16,9 +16,11 @@ class InboxScreen extends StatelessWidget {
           brightness: Brightness.dark,
           elevation: 8,
           leading: IconButton(
-            icon: Icon(Icons.menu),
+            icon: Icon(Icons.arrow_back),
             color: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           title: Text(
             'Inbox',
@@ -26,13 +28,13 @@ class InboxScreen extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              color: Colors.white,
-              onPressed: () {},
-            ),
-          ],
+          // actions: <Widget>[
+          //   IconButton(
+          //     icon: Icon(Icons.search),
+          //     color: Colors.white,
+          //     onPressed: () {},
+          //   ),
+          // ],
         ),
         body: ListView.builder(
           itemCount: chats.length,
@@ -85,7 +87,7 @@ class InboxScreen extends StatelessWidget {
                             ),
                       child: CircleAvatar(
                         radius: 35,
-                        backgroundImage: AssetImage(chat.sender.imageUrl),
+                        // backgroundImage: AssetImage(chat.sender.imageUrl),
                       ),
                     ),
                     Container(

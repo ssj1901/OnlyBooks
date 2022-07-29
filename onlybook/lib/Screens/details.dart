@@ -19,6 +19,7 @@ class _DetailsPageState extends State<DetailsPage> {
     double wt = MediaQuery.of(context).size.width;
     double ht = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: ht,
         width: wt,
@@ -37,7 +38,7 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
             Center(
                 child: Container(
-              height: ht * 0.6,
+              height: ht * 0.7,
               width: wt * 0.87,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(60),

@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onlybook/Screens/Chat/inbox_screen.dart';
+import 'package:onlybook/Screens/categories/categorytile.dart';
 import 'package:onlybook/bookpage.dart';
 import 'package:onlybook/components/search.dart';
 import 'mp.dart';
@@ -153,31 +154,28 @@ class _HomeState extends State<Home> {
   }
 
   Widget Categories(double ht, double wt) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-          height: ht * 0.14,
-          //color: Colors.black,
-          child: ListView(scrollDirection: Axis.horizontal, children: [
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              categoriesWidget("CSE", 'assets/programmingcomputer.json', ht, wt
-                  //  Colors.yellow,
-                  ),
-              categoriesWidget("ECE", 'assets/bulb.json', ht, wt
-                  //  Colors.red,
-                  ),
-              categoriesWidget("EBE", 'assets/biomedical.json', ht, wt
-                  //  Colors.cyan,
-                  ),
-              categoriesWidget("EEE", 'assets/electronics.json', ht, wt
-                  //  Colors.yellow,
-                  ),
-              categoriesWidget("MECH", 'assets/mechanic.json', ht, wt
-                  //  Colors.red,
-                  ),
-            ]),
-          ])),
-    );
+    return Container(
+        height: ht * 0.14,
+        //color: Colors.black,
+        child: ListView(scrollDirection: Axis.horizontal, children: [
+          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+            categoriesWidget("CSE", 'assets/programmingcomputer.json', ht, wt
+                //  Colors.yellow,
+                ),
+            categoriesWidget("ECE", 'assets/bulb.json', ht, wt
+                //  Colors.red,
+                ),
+            categoriesWidget("EBE", 'assets/biomedical.json', ht, wt
+                //  Colors.cyan,
+                ),
+            categoriesWidget("EEE", 'assets/electronics.json', ht, wt
+                //  Colors.yellow,
+                ),
+            categoriesWidget("MECH", 'assets/mechanic.json', ht, wt
+                //  Colors.red,
+                ),
+          ]),
+        ]));
   }
 
   Widget SearchBar(double ht, double wt) {
@@ -313,25 +311,34 @@ class _HomeState extends State<Home> {
   }
 
   Widget categoriesWidget(String text, String url, double ht, double wt) {
-    return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10),
-      color: Colors.white,
-      shadowColor: Colors.grey.shade400,
-      elevation: 2,
-      child: Container(
-        height: ht * 0.12,
-        width: wt * 0.26,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                height: ht * 0.08, child: Lottie.asset(url, fit: BoxFit.cover)),
-            Text(
-              text,
-              style: GoogleFonts.lato(fontWeight: FontWeight.w500),
-            ),
-          ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          CupertinoPageRoute(builder: (context) => Categorytile(text)),
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        color: Colors.white,
+        shadowColor: Colors.grey.shade400,
+        elevation: 2,
+        child: Container(
+          height: ht * 0.12,
+          width: wt * 0.26,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  height: ht * 0.08,
+                  child: Lottie.asset(url, fit: BoxFit.cover)),
+              Text(
+                text,
+                style: GoogleFonts.lato(fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
         ),
       ),
     );

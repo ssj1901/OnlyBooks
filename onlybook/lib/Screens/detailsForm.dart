@@ -42,13 +42,13 @@ class _DetailsFormState extends State<DetailsForm> {
     return Form(
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 7),
-        height: ht * 0.5,
+        height: ht * 0.7,
         width: wt * 0.8,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: ht * 0.1,
+              height: ht * 0.05,
             ),
             // Container(
             //   padding: EdgeInsets.only(left: 1),
@@ -69,6 +69,9 @@ class _DetailsFormState extends State<DetailsForm> {
             const SizedBox(height: defaultPadding / 2),
             Fields(context, userDetails, "lastName", "Last Name", "s"),
             const SizedBox(height: defaultPadding / 2),
+            SizedBox(
+              height: ht * 0.01,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 6.0),
               child: Text(
@@ -79,6 +82,7 @@ class _DetailsFormState extends State<DetailsForm> {
                     fontWeight: FontWeight.w300),
               ),
             ),
+
             Container(
               padding: EdgeInsets.only(left: defaultPadding),
               decoration: BoxDecoration(
@@ -111,6 +115,9 @@ class _DetailsFormState extends State<DetailsForm> {
                   );
                 }).toList(),
               ),
+            ),
+            SizedBox(
+              height: ht * 0.01,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 6.0),
@@ -154,6 +161,9 @@ class _DetailsFormState extends State<DetailsForm> {
                   );
                 }).toList(),
               ),
+            ),
+            SizedBox(
+              height: ht * 0.01,
             ),
             // Fields(context,branch,"First Name"),
             // Fields(context,sem,"First Name"),
@@ -221,6 +231,8 @@ Widget Fields(BuildContext context, Map userDetails, String detail,
     ),
   );
 }
+
+
 
 // Widget ChangeBranch(BuildContext context,Map userDetails) {
    
