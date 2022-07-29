@@ -27,18 +27,18 @@ class _SellPageState extends State<SellPage> {
   String dropdownValueYear = '1';
   File? image;
 
-  Future pickImage(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return null;
+  // Future pickImage(ImageSource source) async {
+  //   try {
+  //     final image = await ImagePicker().pickImage(source: source);
+  //     if (image == null) return null;
 
-      //final imageTemporary = File(image.path);
-      final imagePermanent = await saveImagePermanently(image.path);
-      setState(() => this.image = imagePermanent);
-    } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
-    }
-  }
+  //     //final imageTemporary = File(image.path);
+  //     final imagePermanent = await saveImagePermanently(image.path);
+  //     setState(() => this.image = imagePermanent);
+  //   } on PlatformException catch (e) {
+  //     print('Failed to pick image: $e');
+  //   }
+  // }
 
   Future<File> saveImagePermanently(String imagePath) async {
     final directory = await getApplicationDocumentsDirectory();
@@ -169,10 +169,10 @@ class _SellPageState extends State<SellPage> {
       ),
       actions: <Widget>[
         new InkWell(
-            onTap: () {
-              pickImage(ImageSource.camera);
-              Navigator.pop(context);
-            },
+            // onTap: () {
+            //   pickImage(ImageSource.camera);
+            //   Navigator.pop(context);
+            // },
             child: Container(
               height: 40,
               width: 100,
@@ -188,10 +188,10 @@ class _SellPageState extends State<SellPage> {
               ),
             )),
         new InkWell(
-            onTap: () {
-              pickImage(ImageSource.gallery);
-              Navigator.pop(context);
-            },
+            // onTap: () {
+            //   pickImage(ImageSource.gallery);
+            //   Navigator.pop(context);
+            // },
             child: Container(
               height: 40,
               width: 100,
