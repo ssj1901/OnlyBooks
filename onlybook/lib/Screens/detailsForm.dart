@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/home.dart';
 import 'package:onlybook/services/authservice.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../../constants.dart';
 
@@ -16,25 +16,10 @@ class DetailsForm extends StatefulWidget {
 }
 
 class _DetailsFormState extends State<DetailsForm> {
-  var firstName, lastName, branch, sem, phNum, email = "gsb456";
+  var firstName, lastName, branch, sem, phNum;
   String dropdownValueBranch = 'CS';
   String dropdownValueSem = '1';
   final Map userDetails = {};
-  Future<void> main() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    email = prefs.getString('email');
-    print("Here");
-    print(email);
-  }
-  // getStringValuesSF() async {
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // //Return String
-  // String stringValue = prefs.getString('stringValue');
-  // return stringValue;
-  // }
-  // late String email = getStringValuesSF();
-
   @override
   Widget build(BuildContext context) {
     double wt = MediaQuery.of(context).size.width;
@@ -64,10 +49,12 @@ class _DetailsFormState extends State<DetailsForm> {
                     fontWeight: FontWeight.w700),
               ),
             ),
-
-            Fields(context, userDetails, "firstName", "First Name", "s"),
+            SizedBox(
+              height: ht * 0.04,
+            ),
+            Fields(context, userDetails, firstName, "First Name", "s"),
             const SizedBox(height: defaultPadding / 2),
-            Fields(context, userDetails, "lastName", "Last Name", "s"),
+            Fields(context, userDetails, lastName, "Last Name", "s"),
             const SizedBox(height: defaultPadding / 2),
             SizedBox(
               height: ht * 0.01,
@@ -168,23 +155,26 @@ class _DetailsFormState extends State<DetailsForm> {
             // Fields(context,branch,"First Name"),
             // Fields(context,sem,"First Name"),
             const SizedBox(height: defaultPadding / 2),
-            Fields(context, userDetails, "phNum", "Phone Number", "n"),
-            const SizedBox(height: defaultPadding / 2),
+            Fields(context, userDetails, phNum, "Phone Number", "n"),
+            const SizedBox(height: defaultPadding / 1),
+            SizedBox(
+              height: ht * 0.01,
+            ),
             Container(
               width: wt * 0.83,
               child: ElevatedButton(
+                // onPressed: () {
+                //   Navigator.push(
+                //     context,
+                //     CupertinoPageRoute(builder: (context) => Navig()),
+                //   );
+                //},
                 onPressed: () {
-                  AuthService()
-                      .addInfo(
-                          email,
-                          userDetails["firstName"],
-                          userDetails["lastName"],
-                          dropdownValueBranch,
-                          dropdownValueSem,
-                          userDetails["phNum"])
-                      .then((val) {
-                    print("Success123");
-                  });
+                  // AuthService().addUser(name, password).then((val) {
+                  //   print(name);
+                  //   print(password);
+                  //   print("Success");
+                  // });
 
                   Navigator.push(
                     context,
@@ -206,17 +196,15 @@ class _DetailsFormState extends State<DetailsForm> {
   }
 }
 
-Widget Fields(BuildContext context, Map userDetails, String detail,
-    String hintText, String type) {
+Widget Fields(BuildContext context, Map userDetails, var detail,
+    String hintText, var type) {
   return Container(
     width: MediaQuery.of(context).size.width * 0.83,
     child: TextFormField(
       keyboardType: type == "s" ? TextInputType.name : TextInputType.phone,
       textInputAction: TextInputAction.next,
       cursorColor: kPrimaryColor,
-      onSaved: (val) {
-        userDetails[detail] = val;
-      },
+      onSaved: (detail) {},
       decoration: InputDecoration(
         hintStyle: TextStyle(fontSize: 14),
         hintText: hintText,
