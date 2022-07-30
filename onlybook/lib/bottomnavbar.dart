@@ -11,10 +11,10 @@ class Navig extends StatefulWidget {
 }
 
 class _NavigState extends State<Navig> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
   List<Widget> _page = [
     Home(),
-    SellPage(),
+    // SellPage(),
     Profile(),
   ];
   @override
@@ -54,10 +54,10 @@ class _NavigState extends State<Navig> {
           },
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add),
-              label: 'Sell',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.add),
+            //   label: 'Sell',
+            // ),
             BottomNavigationBarItem(label: 'Profile', icon: Icon(Icons.person))
           ],
         )

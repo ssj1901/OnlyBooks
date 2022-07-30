@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,7 +24,8 @@ class SellPage extends StatefulWidget {
 }
 
 class _SellPageState extends State<SellPage> {
-  var title, course, price;
+  final user = FirebaseAuth.instance.currentUser!;
+  var author, title, course, price;
   String dropdownValueBranch = 'CSE';
   String dropdownValueYear = '1';
   File? image;
@@ -85,7 +88,7 @@ class _SellPageState extends State<SellPage> {
               // top: ht * 0.05,
               child: Container(
                 width: wt,
-                height: ht * 0.78,
+                height: ht * 0.85,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.9),
                   borderRadius: BorderRadius.only(
@@ -215,7 +218,7 @@ class _SellPageState extends State<SellPage> {
       child: Form(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 7),
-          height: ht * 0.55,
+          height: ht * 0.6,
           width: wt * 0.8,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,10 +227,13 @@ class _SellPageState extends State<SellPage> {
                 height: ht * 0.02,
               ),
 
-              Fields(context, title, "Title", "s"),
+              Fields(context, title, "Title", "t"),
               const SizedBox(height: defaultPadding / 2),
-              Fields(context, course, "Course", "s"),
+              Fields(context, course, "Author", "a"),
               const SizedBox(height: defaultPadding / 2),
+              Fields(context, course, "Course", "c"),
+              const SizedBox(height: defaultPadding / 2),
+
               SizedBox(
                 height: ht * 0.01,
               ),
@@ -332,8 +338,8 @@ class _SellPageState extends State<SellPage> {
               ),
               // Fields(context,branch,"First Name"),
               // Fields(context,sem,"First Name"),
-              const SizedBox(height: defaultPadding / 2),
-              Fields(context, price, "Price", "s"),
+              const SizedBox(height: defaultPadding / 3),
+              Fields(context, price, "Price", "p"),
               //  const SizedBox(height: defaultPadding / 1),
               SizedBox(
                 height: ht * 0.01,
@@ -347,19 +353,21 @@ class _SellPageState extends State<SellPage> {
                   //     CupertinoPageRoute(builder: (context) => Navig()),
                   //   );
                   //},
-                  onPressed: () {
-                    // AuthService().addUser(name, password).then((val) {
-                    //   print(name);
-                    //   print(password);
-                    //   print("Success");
-                    // });
-
-                    // Navigator.push(
-                    //   context,
-                    //   CupertinoPageRoute(builder: (context) {
-                    //     return Navig();
-                    //   }),
-                    // );
+                  onPressed: () async {
+                    await createBook(
+                      branch: dropdownValueBranch,
+                      year: dropdownValueYear,
+                      title: title,
+                      course: course,
+                      price: price,
+                      author: author,
+                      uid: user.uid,
+                    );
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => _buildPopup(context),
+                    );
+                    Navigator.pop(context);
                   },
                   child: Text(
                     "Submit".toUpperCase(),
@@ -373,25 +381,87 @@ class _SellPageState extends State<SellPage> {
       ),
     );
   }
-}
 
-Widget Fields(BuildContext context, var detail, String hintText, var type) {
-  return Container(
-    width: MediaQuery.of(context).size.width * 0.83,
-    child: TextFormField(
-      keyboardType: type == "s" ? TextInputType.name : TextInputType.phone,
-      textInputAction: TextInputAction.next,
-      cursorColor: kPrimaryColor,
-      onSaved: (detail) {},
-      decoration: InputDecoration(
-        hintStyle: TextStyle(fontSize: 14),
-        hintText: hintText,
-        prefixIcon: Padding(
-          padding: const EdgeInsets.all(defaultPadding),
-          child: type == "s" ? Icon(Icons.keyboard) : Icon(Icons.phone),
-        ),
+  Widget _buildPopup(BuildContext context) {
+    return new AlertDialog(
+      title: const Text('Book SuccessFully Added'),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        // children: <Widget>[
+        //   Text("Hello"),
+        // ],
       ),
-      onChanged: (val) {},
-    ),
-  );
+      actions: <Widget>[
+        new InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              height: 40,
+              width: 100,
+              decoration: BoxDecoration(
+                color: kPrimaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(50)),
+              ),
+              child: Center(
+                child: Text(
+                  'OK',
+                  style: GoogleFonts.lato(color: Colors.white, fontSize: 17),
+                ),
+              ),
+            )),
+      ],
+    );
+  }
+
+  Widget Fields(BuildContext context, var detail, String hintText, var type) {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.83,
+      child: TextFormField(
+        keyboardType: type == "p" ? TextInputType.phone : TextInputType.name,
+        textInputAction: TextInputAction.next,
+        cursorColor: kPrimaryColor,
+        onSaved: (detail) {},
+        decoration: InputDecoration(
+          hintStyle: TextStyle(fontSize: 14),
+          hintText: hintText,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(defaultPadding),
+            child: type == "p"
+                ? Icon(Icons.monetization_on)
+                : Icon(Icons.keyboard),
+          ),
+        ),
+        onChanged: (val) {
+          if (type == 't') title = val;
+          if (type == 'c') course = val;
+          if (type == 'p') price = val;
+          if (type == 'a') author = val;
+        },
+      ),
+    );
+  }
+
+  Future createBook(
+      {required String title,
+      required String course,
+      required String branch,
+      required String year,
+      required String price,
+      required String author,
+      required String uid}) async {
+    final docUser = FirebaseFirestore.instance.collection('books').doc();
+
+    final json = {
+      'Title': title,
+      'Course': course,
+      'Branch': branch,
+      'Year': year,
+      'Price': price,
+      'userid': uid,
+      'Author': author,
+    };
+    await docUser.set(json);
+  }
 }

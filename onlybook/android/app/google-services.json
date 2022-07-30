@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "681606043251",
+    "project_id": "onlybooks-db397",
+    "storage_bucket": "onlybooks-db397.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681606043251:android:46a9473bbe8f164a48fc06",
+        "android_client_info": {
+          "package_name": "com.example.onlybook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681606043251-fv2nvn78olbb5jnah8qldroecue7ktgd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPxIFvTQm7qxXFCLJfkIip5icRs5wLdIo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681606043251-fv2nvn78olbb5jnah8qldroecue7ktgd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

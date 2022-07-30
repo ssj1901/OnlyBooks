@@ -83,6 +83,7 @@ class Categorytile extends StatelessWidget {
                                     context,
                                     CupertinoPageRoute(
                                         builder: (context) => CategoryBooks(
+                                            index + 1,
                                             (index * 2) + 1,
                                             (index * 2) + 2,
                                             sub)));

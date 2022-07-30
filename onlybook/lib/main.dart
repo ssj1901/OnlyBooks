@@ -1,14 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:onlybook/Screens/Login/login_screen.dart';
-import 'package:onlybook/Screens/Signup/signup_screen.dart';
+// import 'package:onlybook/Screens/Login/login_screen.dart';
+// import 'package:onlybook/Screens/Signup/signup_screen.dart';
 import 'package:onlybook/Screens/details.dart';
 import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/constants.dart';
-import 'introbackup.dart';
-import 'Screens/Welcome/welcome_screen.dart';
-import 'home.dart';
+import 'package:onlybook/services/AuthPage.dart';
+// import 'introbackup.dart';
+// import 'Screens/Welcome/welcome_screen.dart';
+// import 'home.dart';
 
-void main() => runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -43,7 +51,36 @@ class MyApp extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
           )),
-      home: Intro(),
+      home: MainPage(),
+    );
+  }
+}
+
+class MainPage extends StatelessWidget {
+  const MainPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      body: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final user = FirebaseAuth.instance.currentUser!;
+              final docUser = FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user.uid)
+                  .get();
+              if (snapshot.data!.displayName == null)
+                return DetailsPage();
+              else {
+                return Navig();
+              }
+            } else {
+              return AuthPage();
+            }
+          }),
     );
   }
 }

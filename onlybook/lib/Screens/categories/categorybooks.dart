@@ -1,16 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../bookpage.dart';
-import '../../mp.dart';
+import 'package:onlybook/bookpage.dart';
+import 'package:onlybook/bookmodel.dart';
 
 class CategoryBooks extends StatefulWidget {
-  final index1, index2, sub;
+  final index1, index2, sub, year;
 
-  CategoryBooks(this.index1, this.index2, this.sub);
+  CategoryBooks(this.index1, this.index2, this.sub, this.year);
 
   @override
   State<CategoryBooks> createState() => _CategoryBooksState();
@@ -70,100 +71,127 @@ class _CategoryBooksState extends State<CategoryBooks> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Container(
-                      height: ht,
-                      child: GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, childAspectRatio: 0.6),
-                          itemCount: Books.books.length,
-                          itemBuilder: (BuildContext ctx, index) {
-                            return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) =>
-                                          BookPage(Books.books[index])),
-                                );
-                              },
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                color: Colors.white,
-                                elevation: 2,
-                                margin: EdgeInsets.all(8),
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  height: ht * 0.3,
-                                  // width: 20,
-                                  alignment: Alignment.center,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(bottom: 10),
-                                        height: ht * 0.2,
-                                        decoration: BoxDecoration(
-                                            // color: Colors.grey,
+                        height: ht,
+                        child: StreamBuilder<List<Books>>(
+                          stream: readBooks(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              final books = snapshot.data!;
+                              return GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2,
+                                          childAspectRatio: 0.6),
+                                  itemCount: books.length,
+                                  itemBuilder: (BuildContext ctx, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  BookPage(books[index])),
+                                        );
+                                      },
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10)),
-                                        child: Center(
-                                            child: Image.network(
-                                                Books.books[index].imgPath)),
+                                        color: Colors.white,
+                                        elevation: 2,
+                                        margin: EdgeInsets.all(8),
+                                        child: Container(
+                                          padding: EdgeInsets.all(10),
+                                          height: ht * 0.3,
+                                          // width: 20,
+                                          alignment: Alignment.center,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin:
+                                                    EdgeInsets.only(bottom: 10),
+                                                height: ht * 0.2,
+                                                decoration: BoxDecoration(
+                                                    // color: Colors.grey,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Center(
+                                                    child: Image.network(
+                                                        books[index].imgPath)),
+                                              ),
+                                              // Text(
+                                              //   Books.books[index].date,
+                                              //   style: TextStyle(
+                                              //       fontSize: 9,
+                                              //       fontWeight: FontWeight.w300),
+                                              // ),
+                                              SizedBox(
+                                                height: ht * 0.01,
+                                              ),
+                                              Text(
+                                                books[index].title,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                              SizedBox(
+                                                height: ht * 0.01,
+                                              ),
+                                              Text(
+                                                "Rs ${books[index].price}",
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                              ),
+                                              SizedBox(
+                                                height: ht * 0.015,
+                                              ),
+                                              Text(
+                                                "- ${books[index].author}",
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                      Text(
-                                        Books.books[index].date,
-                                        style: TextStyle(
-                                            fontSize: 9,
-                                            fontWeight: FontWeight.w300),
-                                      ),
-                                      SizedBox(
-                                        height: ht * 0.01,
-                                      ),
-                                      Text(
-                                        Books.books[index].name,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      SizedBox(
-                                        height: ht * 0.01,
-                                      ),
-                                      Text(
-                                        "Rs ${Books.books[index].price}",
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                      SizedBox(
-                                        height: ht * 0.015,
-                                      ),
-                                      Text(
-                                        "- ${Books.books[index].author}",
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
+                                    );
+                                  });
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        )),
                     // ),
                   ),
                 ),
               ),
+              SizedBox(
+                height: ht * 0.1,
+              )
             ],
           ),
         ),
       ),
     );
   }
+
+  Stream<List<Books>> readBooks() => FirebaseFirestore.instance
+      .collection('books')
+      .snapshots()
+      .map((snapshot) =>
+          snapshot.docs.map((doc) => Books.fromJson(doc.data())).toList());
 }
