@@ -11,7 +11,7 @@ import 'package:onlybook/bookmodel.dart';
 class CategoryBooks extends StatefulWidget {
   final index1, index2, sub, year;
 
-  CategoryBooks(this.index1, this.index2, this.sub, this.year);
+  CategoryBooks(this.year, this.index1, this.index2, this.sub);
 
   @override
   State<CategoryBooks> createState() => _CategoryBooksState();
@@ -191,6 +191,8 @@ class _CategoryBooksState extends State<CategoryBooks> {
 
   Stream<List<Books>> readBooks() => FirebaseFirestore.instance
       .collection('books')
+      .where('Year', isEqualTo: widget.year.toString())
+      .where('Branch', isEqualTo: widget.sub)
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Books.fromJson(doc.data())).toList());

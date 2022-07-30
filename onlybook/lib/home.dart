@@ -10,6 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:onlybook/Screens/Chat/inbox_screen.dart';
+import 'package:onlybook/Screens/Searchbar.dart';
 import 'package:onlybook/Screens/Sell%20Page/sellpage.dart';
 import 'package:onlybook/Screens/categories/categorytile.dart';
 import 'package:onlybook/bookpage.dart';
@@ -197,7 +198,7 @@ class _HomeState extends State<Home> {
                         scrollDirection: Axis.horizontal,
                         // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         //     crossAxisCount: 1, childAspectRatio: 3),
-                        itemCount: books.length,
+                        itemCount: 4,
                         itemBuilder: (BuildContext ctx, index) {
                           return InkWell(
                             onTap: () {
@@ -301,7 +302,7 @@ class _HomeState extends State<Home> {
             categoriesWidget("ECE", 'assets/bulb.json', ht, wt
                 //  Colors.red,
                 ),
-            categoriesWidget("EBE", 'assets/biomedical.json', ht, wt
+            categoriesWidget("BME", 'assets/biomedical.json', ht, wt
                 //  Colors.cyan,
                 ),
             categoriesWidget("EEE", 'assets/electronics.json', ht, wt
@@ -319,7 +320,11 @@ class _HomeState extends State<Home> {
       top: ht * 0.18,
       child: InkWell(
         onTap: () {
-          // showSearch(context: context, delegate: DataSearch());
+          Navigator.push(
+            context,
+            CupertinoPageRoute(builder: (context) => Search()),
+          );
+          //showSearch(context: context, delegate: DataSearch());
         },
         child: Container(
           margin: EdgeInsets.fromLTRB(wt * 0.08, 0, 0, 0),
@@ -508,6 +513,7 @@ class _HomeState extends State<Home> {
 
   Stream<List<Books>> readrecommendBooks() => FirebaseFirestore.instance
       .collection('books')
+      .where('Year', isEqualTo: year)
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => Books.fromJson(doc.data())).toList());
