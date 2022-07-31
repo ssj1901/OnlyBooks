@@ -45,27 +45,3 @@ final User scarletWitch = User(
   imageUrl: 'assets/images/scarlet-witch.jpg',
   isOnline: false,
 );
-final User spiderMan = User(
-  id: 5,
-  name: 'Spider Man',
-  imageUrl: 'assets/images/spiderman.jpg',
-  isOnline: true,
-);
-final User blackWindow = User(
-  id: 6,
-  name: 'Black Widow',
-  imageUrl: 'assets/images/black-widow.jpg',
-  isOnline: false,
-);
-final User thor = User(
-  id: 7,
-  name: 'Thor',
-  imageUrl: 'assets/images/thor.png',
-  isOnline: false,
-);
-final User captainMarvel = User(
-  id: 8,
-  name: 'Captain Marvel',
-  imageUrl: 'assets/images/captain-marvel.jpg',
-  isOnline: false,
-);

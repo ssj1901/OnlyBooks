@@ -521,7 +521,7 @@ class _HomeState extends State<Home> {
       .collection('books')
       .where('Year', isEqualTo: year)
       .where('Sold', isEqualTo: 'false')
-      // .where('userid', isNotEqualTo: userid)
+      //  .where('userid', whereNotIn: [userid])
       .snapshots()
       .map((snapshot) => snapshot.docs
           .map((doc) => Books.fromJson(doc.data(), doc.id))
