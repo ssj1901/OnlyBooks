@@ -245,7 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           .createUserWithEmailAndPassword(email: email, password: password);
       User? user = result.user;
       await DatabaseService(uid: user!.uid).updateEmail(email);
-      await DatabaseService(uid: user.uid).updatePassword(email);
+      await DatabaseService(uid: user.uid).updatePassword(password);
     } on FirebaseAuthException catch (e) {
       print(e);
     }

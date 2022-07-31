@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ import '../../constants.dart';
 
 class SellPage extends StatefulWidget {
   final String seller;
+
   SellPage(this.seller);
 
   @override
@@ -25,6 +27,7 @@ class SellPage extends StatefulWidget {
 }
 
 class _SellPageState extends State<SellPage> {
+  String prolink = "";
   final user = FirebaseAuth.instance.currentUser!;
   var author,
       title,
@@ -34,16 +37,27 @@ class _SellPageState extends State<SellPage> {
           'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930';
   String dropdownValueBranch = 'CSE';
   String dropdownValueYear = '1';
-  File? image;
 
   Future pickImage(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return null;
+      final fileName = basename(image.path);
+      final destination = 'files/$fileName';
+      Reference ref = FirebaseStorage.instance.ref(destination);
+
+      await ref.putFile(File(image.path));
+
+      ref.getDownloadURL().then((value) async {
+        setState(() {
+          print(value);
+          prolink = value;
+        });
+      });
 
       //final imageTemporary = File(image.path);
-      final imagePermanent = await saveImagePermanently(image.path);
-      setState(() => this.image = imagePermanent);
+      // final imagePermanent = await saveImagePermanently(image.path);
+      // setState(() => this.image = imagePermanent);
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -114,24 +128,22 @@ class _SellPageState extends State<SellPage> {
                           child: Positioned(
                             top: 5,
                             child: Container(
-                              height: ht * 0.2,
-                              width: wt * 0.45,
-                              // color: Colors.black,
-                              decoration: BoxDecoration(
-                                  // color: Colors.black,
-                                  borderRadius: BorderRadius.circular(600)),
-
-                              child: image != null
-                                  ? ClipOval(
-                                      child: Image.file(
-                                        image!,
-                                        fit: BoxFit.contain,
-                                        //  width: 100,
-                                      ),
-                                    )
-                                  : ClipOval(
-                                      child: Image.asset("assets/empty.jpg")),
-                            ),
+                                height: ht * 0.2,
+                                width: wt * 0.45,
+                                // color: Colors.black,
+                                decoration: BoxDecoration(
+                                    // color: Colors.black,
+                                    borderRadius: BorderRadius.circular(600)),
+                                child: prolink == ""
+                                    ? ClipOval(
+                                        child: Image.asset("assets/empty.jpg"))
+                                    : ClipOval(
+                                        child: Image.network(
+                                          prolink,
+                                          fit: BoxFit.contain,
+                                          //  width: 100,
+                                        ),
+                                      )),
                           ),
                         ),
                         Positioned(
@@ -471,7 +483,7 @@ class _SellPageState extends State<SellPage> {
       'Price': price,
       'userid': uid,
       'Author': author,
-      'imgpath': imgpath,
+      'imgpath': prolink == "" ? imgpath : prolink,
       'Sellername': seller,
       'Sold': 'false',
     };
