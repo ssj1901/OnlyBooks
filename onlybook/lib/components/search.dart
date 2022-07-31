@@ -179,8 +179,9 @@ class DataSearch extends SearchDelegate {
   Stream<List<Books>> readBooks() => FirebaseFirestore.instance
       .collection('books')
       .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Books.fromJson(doc.data())).toList());
+      .map((snapshot) => snapshot.docs
+          .map((doc) => Books.fromJson(doc.data(), doc.id))
+          .toList());
 }
 
 // class DataSearch extends StatefulWidget {

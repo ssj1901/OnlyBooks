@@ -28,7 +28,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var branch, username, year;
+  var userid, branch, username, year;
   FutureOr onGoBack(dynamic value) {
     setState(() {});
   }
@@ -116,7 +116,8 @@ class _HomeState extends State<Home> {
                                 InkWell(
                                   onTap: () {
                                     Route route = CupertinoPageRoute(
-                                        builder: (context) => SellPage());
+                                        builder: (context) =>
+                                            SellPage(username));
                                     Navigator.push(context, route)
                                         .then(onGoBack);
                                   },
@@ -198,7 +199,7 @@ class _HomeState extends State<Home> {
                         scrollDirection: Axis.horizontal,
                         // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         //     crossAxisCount: 1, childAspectRatio: 3),
-                        itemCount: 4,
+                        itemCount: books.length < 4 ? books.length : 4,
                         itemBuilder: (BuildContext ctx, index) {
                           return InkWell(
                             onTap: () {
@@ -231,10 +232,13 @@ class _HomeState extends State<Home> {
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Center(
-                                          child: Image.network(
-                                        books[index].imgPath,
-                                        fit: BoxFit.contain,
-                                      )),
+                                          child: books[index].imgPath == ""
+                                              ? Image.network(
+                                                  'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930')
+                                              : Image.network(
+                                                  books[index].imgPath,
+                                                  fit: BoxFit.contain,
+                                                )),
                                     ),
                                     // Text(
                                     //   books[index].price,
@@ -308,7 +312,7 @@ class _HomeState extends State<Home> {
             categoriesWidget("EEE", 'assets/electronics.json', ht, wt
                 //  Colors.yellow,
                 ),
-            categoriesWidget("MECH", 'assets/mechanic.json', ht, wt
+            categoriesWidget("ME", 'assets/mechanic.json', ht, wt
                 //  Colors.red,
                 ),
           ]),
@@ -505,129 +509,21 @@ class _HomeState extends State<Home> {
         username = value.data()!['FirstName'];
         year = value.data()!['Year'];
         branch = value.data()!['Branch'];
+        userid = firebaseUser.uid;
         print(year);
         print(username);
         print(branch);
+        print(firebaseUser.uid);
       });
   }
 
   Stream<List<Books>> readrecommendBooks() => FirebaseFirestore.instance
       .collection('books')
       .where('Year', isEqualTo: year)
+      .where('Sold', isEqualTo: 'false')
+      // .where('userid', isNotEqualTo: userid)
       .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Books.fromJson(doc.data())).toList());
+      .map((snapshot) => snapshot.docs
+          .map((doc) => Books.fromJson(doc.data(), doc.id))
+          .toList());
 }
-
-
-
-
-
-
-//  FutureBuilder(
-//         future: _fetch(),
-//         builder: (context, snapshot) {
-//           if (snapshot.connectionState != ConnectionState.done)
-//             return Text("Loading");
-//           return StreamBuilder<List<Books>>(
-//               stream: readrecommendBooks(),
-//               builder: (context, snapshot) {
-//                 if (snapshot.hasData) {
-//                   final books = snapshot.data!;
-//                   return Container(
-//                     height: ht * 0.35,
-//                     width: wt,
-//                     child: ListView.builder(
-//                         scrollDirection: Axis.horizontal,
-//                         // gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//                         //     crossAxisCount: 1, childAspectRatio: 3),
-//                         itemCount: books.length,
-//                         itemBuilder: (BuildContext ctx, index) {
-//                           return InkWell(
-//                             onTap: () {
-//                               Navigator.push(
-//                                 context,
-//                                 CupertinoPageRoute(
-//                                     builder: (context) =>
-//                                         BookPage(books[index])),
-//                               );
-//                             },
-//                             child: Card(
-//                               shape: RoundedRectangleBorder(
-//                                   borderRadius: BorderRadius.circular(10)),
-//                               color: Colors.white,
-//                               elevation: 2,
-//                               margin: EdgeInsets.all(8),
-//                               child: Container(
-//                                 padding: EdgeInsets.all(10),
-//                                 // height: ht * 0.1,
-//                                 width: wt * 0.45,
-//                                 alignment: Alignment.center,
-//                                 child: Column(
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   children: [
-//                                     Container(
-//                                       margin: EdgeInsets.only(bottom: 10),
-//                                       height: ht * 0.2,
-//                                       decoration: BoxDecoration(
-//                                           // color: Colors.grey,
-//                                           borderRadius:
-//                                               BorderRadius.circular(10)),
-//                                       child: Center(
-//                                           child: Image.network(
-//                                         books[index].imgPath,
-//                                         fit: BoxFit.contain,
-//                                       )),
-//                                     ),
-//                                     // Text(
-//                                     //   books[index].price,
-//                                     //   style: TextStyle(
-//                                     //       fontSize: 9, fontWeight: FontWeight.w300),
-//                                     // ),
-//                                     SizedBox(
-//                                       height: ht * 0.01,
-//                                     ),
-//                                     Text(
-//                                       books[index].title,
-//                                       maxLines: 1,
-//                                       overflow: TextOverflow.ellipsis,
-//                                       style: TextStyle(
-//                                           fontSize: 14,
-//                                           fontWeight: FontWeight.w500),
-//                                     ),
-//                                     SizedBox(
-//                                       height: ht * 0.01,
-//                                     ),
-//                                     Text(
-//                                       "Rs ${books[index].price}",
-//                                       style: TextStyle(
-//                                           fontSize: 18,
-//                                           fontWeight: FontWeight.w700),
-//                                     ),
-//                                     SizedBox(
-//                                       height: ht * 0.015,
-//                                     ),
-//                                     Text(
-//                                       "- ${books[index].author}",
-//                                       maxLines: 1,
-//                                       overflow: TextOverflow.ellipsis,
-//                                       style: TextStyle(
-//                                           fontSize: 10,
-//                                           fontWeight: FontWeight.w400),
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           );
-//                         }),
-
-//                     // ),
-//                   );
-//                 } else {
-//                   return Center(
-//                     child: CircularProgressIndicator(),
-//                   );
-//                 }
-//               });
-//         });

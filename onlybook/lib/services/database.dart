@@ -16,6 +16,12 @@ class DatabaseService {
     }, SetOptions(merge: true));
   }
 
+  Future updatePassword(String Name) async {
+    return await Usercollection.doc(uid).set({
+      'Password': Name,
+    }, SetOptions(merge: true));
+  }
+
   Future updateFirstName(String firstname) async {
     return await Usercollection.doc(uid).set({
       'FirstName': firstname,
@@ -44,6 +50,14 @@ class DatabaseService {
     return await Usercollection.doc(uid).set({
       'PhoneNumber': number,
     }, SetOptions(merge: true));
+  }
+
+  Future deleteItem(
+      {required String itemname, required String category}) async {
+    await FirebaseFirestore.instance
+        .collection('books3')
+        .doc(category)
+        .update({itemname: FieldValue.delete()});
   }
 
   // Future<String> getName() async {

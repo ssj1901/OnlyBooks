@@ -17,7 +17,8 @@ import 'package:path/path.dart';
 import '../../constants.dart';
 
 class SellPage extends StatefulWidget {
-  const SellPage({Key? key}) : super(key: key);
+  final String seller;
+  SellPage(this.seller);
 
   @override
   State<SellPage> createState() => _SellPageState();
@@ -25,7 +26,12 @@ class SellPage extends StatefulWidget {
 
 class _SellPageState extends State<SellPage> {
   final user = FirebaseAuth.instance.currentUser!;
-  var author, title, course, price;
+  var author,
+      title,
+      course,
+      price,
+      imgpath =
+          'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930';
   String dropdownValueBranch = 'CSE';
   String dropdownValueYear = '1';
   File? image;
@@ -277,7 +283,7 @@ class _SellPageState extends State<SellPage> {
                     'ECE',
                     'EEE',
                     'EBE',
-                    'MECH',
+                    'ME',
                   ].map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
@@ -362,6 +368,8 @@ class _SellPageState extends State<SellPage> {
                       price: price,
                       author: author,
                       uid: user.uid,
+                      imgpath: imgpath,
+                      seller: widget.seller,
                     );
                     await showDialog(
                       context: context,
@@ -450,6 +458,8 @@ class _SellPageState extends State<SellPage> {
       required String year,
       required String price,
       required String author,
+      required String imgpath,
+      required String seller,
       required String uid}) async {
     final docUser = FirebaseFirestore.instance.collection('books').doc();
 
@@ -461,6 +471,9 @@ class _SellPageState extends State<SellPage> {
       'Price': price,
       'userid': uid,
       'Author': author,
+      'imgpath': imgpath,
+      'Sellername': seller,
+      'Sold': 'false',
     };
     await docUser.set(json);
   }

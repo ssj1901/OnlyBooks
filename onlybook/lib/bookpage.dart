@@ -16,6 +16,7 @@ class _BookPageState extends State<BookPage> {
     double wt = MediaQuery.of(context).size.width;
     double ht = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: Container(
         padding: EdgeInsets.all(20),
         height: ht * 0.1,
@@ -61,8 +62,15 @@ class _BookPageState extends State<BookPage> {
                 height: ht * 0.3,
                 width: wt,
                 child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: Image.network(widget.book.imgPath)),
+                  padding: EdgeInsets.all(10),
+                  child: widget.book.imgPath == ""
+                      ? Image.network(
+                          'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930')
+                      : Image.network(
+                          widget.book.imgPath,
+                          fit: BoxFit.contain,
+                        ),
+                ),
               ),
               SizedBox(
                 height: ht * 0.03,
@@ -99,7 +107,7 @@ class _BookPageState extends State<BookPage> {
               SizedBox(
                 height: ht * 0.01,
               ),
-              detailcard(wt, ht, Icons.person, "Sold By", widget.book.author),
+              detailcard(wt, ht, Icons.person, "Sold By", widget.book.seller),
               detailcard(wt, ht, Icons.date_range, "Year", widget.book.year),
               detailcard(wt, ht, Icons.book, "Course Code", widget.book.course),
             ],

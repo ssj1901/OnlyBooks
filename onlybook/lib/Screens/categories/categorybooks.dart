@@ -119,8 +119,15 @@ class _CategoryBooksState extends State<CategoryBooks> {
                                                         BorderRadius.circular(
                                                             10)),
                                                 child: Center(
-                                                    child: Image.network(
-                                                        books[index].imgPath)),
+                                                  child: books[index].imgPath ==
+                                                          ""
+                                                      ? Image.network(
+                                                          'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930')
+                                                      : Image.network(
+                                                          books[index].imgPath,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                ),
                                               ),
                                               // Text(
                                               //   Books.books[index].date,
@@ -193,7 +200,9 @@ class _CategoryBooksState extends State<CategoryBooks> {
       .collection('books')
       .where('Year', isEqualTo: widget.year.toString())
       .where('Branch', isEqualTo: widget.sub)
+      .where('Sold', isEqualTo: 'false')
       .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => Books.fromJson(doc.data())).toList());
+      .map((snapshot) => snapshot.docs
+          .map((doc) => Books.fromJson(doc.data(), doc.id))
+          .toList());
 }
