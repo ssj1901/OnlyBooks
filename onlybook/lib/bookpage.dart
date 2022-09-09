@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:onlybook/Screens/Chat/ChatRoom.dart';
 import 'package:onlybook/bookmodel.dart';
 
 class BookPage extends StatefulWidget {
@@ -11,6 +14,44 @@ class BookPage extends StatefulWidget {
 }
 
 class _BookPageState extends State<BookPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  String chatRoomId(String user1, String user2) {
+    if (user1[0].toLowerCase().codeUnits[0] >
+        user2.toLowerCase().codeUnits[0]) {
+      return "$user1$user2";
+    } else {
+      return "$user2$user1";
+    }
+  }
+
+  void chatWithSeller(BuildContext context, String chatRoomID) async {
+    await _firestore
+        // .collection('users')
+        .collection('chatroom')
+        .doc(chatRoomID)
+        //.where("Email", isEqualTo: _search.text)
+        .get()
+        .then((value) async {
+      if (!value.exists) {
+        await _firestore.collection('chatroom').doc(chatRoomID).set({
+          "users": [_auth.currentUser!.displayName!, widget.book.seller]
+        });
+      }
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => ChatRoom(
+            chatRoomId: chatRoomID,
+            toUserName: widget.book.seller,
+          ),
+        ),
+      );
+      // print(userMap!['users'][0]);
+      // print(userMap!['users'][1]);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double wt = MediaQuery.of(context).size.width;
@@ -25,22 +66,29 @@ class _BookPageState extends State<BookPage> {
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text("Rs ${widget.book.price}",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
-          Container(
-              height: ht * 0.3,
-              width: wt * 0.35,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.green,
-              ),
-              child: Center(
-                child: Text(
-                  "Chat",
-                  style: GoogleFonts.lato(
-                      fontSize: 17,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+          GestureDetector(
+            onTap: () {
+              String roomID = chatRoomId(
+                  _auth.currentUser!.displayName!, widget.book.seller);
+              chatWithSeller(context, roomID);
+            },
+            child: Container(
+                height: ht * 0.3,
+                width: wt * 0.35,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.green,
                 ),
-              ))
+                child: Center(
+                  child: Text(
+                    "Chat",
+                    style: GoogleFonts.lato(
+                        fontSize: 17,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )),
+          )
         ]),
       ),
       body: SafeArea(

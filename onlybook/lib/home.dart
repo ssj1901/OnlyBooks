@@ -435,7 +435,7 @@ class _HomeState extends State<Home> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      CupertinoPageRoute(builder: (context) => InboxScreen()),
+                      CupertinoPageRoute(builder: (context) => HomeScreen()),
                     );
                   },
                   child: Container(
