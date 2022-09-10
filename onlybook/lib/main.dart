@@ -8,13 +8,15 @@ import 'package:onlybook/Screens/details.dart';
 import 'package:onlybook/bottomnavbar.dart';
 import 'package:onlybook/constants.dart';
 import 'package:onlybook/services/AuthPage.dart';
+
+import 'firebase_options.dart';
 // import 'introbackup.dart';
 // import 'Screens/Welcome/welcome_screen.dart';
 // import 'home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
